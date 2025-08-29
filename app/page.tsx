@@ -184,25 +184,25 @@ export default function Home() {
         </div>
 
         {/* Specialties Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
           {filteredSpecialties.map((specialty) => (
-            <div key={specialty.id} className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group">
-              <div className="p-4">
-                <div className="text-center mb-3">
-                  <h3 className="text-sm font-semibold text-gray-800 mb-1 leading-tight">
+            <div key={specialty.id} className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group min-h-[140px] flex flex-col">
+              <div className="p-3 sm:p-4 flex-1 flex flex-col">
+                <div className="text-center mb-3 flex-1">
+                  <h3 className="text-xs sm:text-sm font-semibold text-gray-800 mb-1 leading-tight min-h-[2.5rem] flex items-center justify-center">
                     {specialty.name}
                   </h3>
                   <div className="flex items-center justify-center text-xs text-gray-600 mb-2">
-                    <User className="w-3 h-3 mr-1" />
-                    <span className="font-medium">{specialty.professional}</span>
+                    <User className="w-3 h-3 mr-1 flex-shrink-0" />
+                    <span className="font-medium text-xs leading-tight">{specialty.professional}</span>
                   </div>
                 </div>
                 
                 <button
                   onClick={() => handleBooking(specialty)}
-                  className="w-full bg-gradient-to-r from-mv-beige to-mv-gray hover:from-mv-gray hover:to-mv-beige text-gray-800 font-medium py-2 px-3 rounded-xl transition-all duration-200 flex items-center justify-center group-hover:scale-105 shadow-sm hover:shadow-md text-xs"
+                  className="w-full bg-gradient-to-r from-mv-beige to-mv-gray hover:from-mv-gray hover:to-mv-beige text-gray-800 font-medium py-2 px-2 sm:px-3 rounded-xl transition-all duration-200 flex items-center justify-center group-hover:scale-105 shadow-sm hover:shadow-md text-xs mt-auto"
                 >
-                  <Calendar className="w-3 h-3 mr-1" />
+                  <Calendar className="w-3 h-3 mr-1 flex-shrink-0" />
                   <span>Reservar</span>
                 </button>
               </div>
