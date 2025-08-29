@@ -763,7 +763,7 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
                         required
                         value={formData.time}
                         onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                        className="w-full px-4 pr-12 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-mv-beige/50 focus:border-mv-beige transition-all duration-300 group-hover:border-mv-beige/30 appearance-none text-gray-800"
+                        className="w-full px-4 pr-10 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-mv-beige/50 focus:border-mv-beige transition-all duration-300 group-hover:border-mv-beige/30 appearance-none text-gray-800"
                       >
                         <option value="">Seleccionar horario</option>
                         {formData.date && isDateAvailable(specialty.id, formData.date) ? (
