@@ -717,6 +717,9 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Fecha de atención *
                     </label>
+                    <p className="text-xs text-gray-600 mb-2">
+                      📅 El consultorio atiende de lunes a viernes
+                    </p>
                     <div className="relative">
                       <input
                         type="date"
@@ -736,7 +739,7 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
                           {isToday(formData.date) 
                             ? 'Las reservas para hoy están disponibles desde las 8:00 AM. Intenta más tarde.'
                             : getDayName(formData.date) === 'Sábado' || getDayName(formData.date) === 'Domingo'
-                            ? `No se atiende los ${getDayName(formData.date)}s. Selecciona un día de lunes a viernes.`
+                            ? `El consultorio no abre los ${getDayName(formData.date)}s. Selecciona un día de lunes a viernes.`
                             : 'El profesional no atiende en esta fecha. Selecciona otro día para ver horarios disponibles.'
                           }
                         </p>
@@ -796,6 +799,9 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
                         <p>💡 Los horarios marcados como "OCUPADO" no están disponibles</p>
                         {isToday(formData.date) && (
                           <p className="text-amber-600 mt-1">⏰ Solo se muestran horarios futuros (no se pueden reservar horarios que ya pasaron)</p>
+                        )}
+                        {isToday(formData.date) && availableTimes.length === 0 && (
+                          <p className="text-red-600 mt-1">❌ No hay horarios disponibles para hoy. Intenta mañana o selecciona otro día.</p>
                         )}
                         <div className="mt-1 flex items-center space-x-4">
                           <span className="flex items-center">
