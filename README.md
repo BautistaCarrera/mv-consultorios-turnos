@@ -2,6 +2,12 @@
 
 Una aplicación web moderna para reservar turnos en MV consultorios, desarrollada con Next.js, TypeScript y Tailwind CSS.
 
+## 🌐 **Aplicación en Producción**
+
+**URL de la aplicación:** [https://mv-consultorios-turnos.vercel.app](https://mv-consultorios-turnos.vercel.app)
+
+> ⚠️ **Nota:** Reemplaza la URL anterior con la URL real de tu aplicación en Vercel
+
 ## Características
 
 - 🏥 **17 especialidades médicas** con sus respectivos profesionales
