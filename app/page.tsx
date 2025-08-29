@@ -183,7 +183,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Specialties Grid - MOBILE OPTIMIZED */}
+        {/* Specialties Grid - MOBILE OPTIMIZED - FORCE DEPLOY */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
           {filteredSpecialties.map((specialty) => (
             <div key={specialty.id} className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group min-h-[200px] flex flex-col">
