@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Search, Filter, Calendar, User, MapPin, Phone, MessageCircle, Clock, X, Heart, Star, Settings } from 'lucide-react';
-import { specialties, contactInfo, isDateAvailable } from './data/specialties';
+import { specialties, contactInfo, isDateAvailable, getAvailableHoursForDate, getDayName, isToday } from './data/specialties';
 import AdminPanel from './components/AdminPanel';
 import { createAppointment, getAvailableTimeSlots, sendConfirmationNotification, getAllAppointments } from './utils/appointmentManager';
 
@@ -416,19 +416,38 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
     setFormData({ ...formData, date });
     if (date) {
       if (isDateAvailable(specialty.id, date)) {
-        const times = getAvailableTimeSlots(specialty.id, date);
+        // Usar la nueva función que filtra horarios pasados para hoy
+        const times = getAvailableHoursForDate(specialty.id, date);
         setAvailableTimes(times);
         
         // Cargar todos los horarios con su estado de ocupación
         const allTimes = getAllTimeSlots(specialty.id, date);
         const timeSlotsWithStatus = allTimes.map(time => ({
           time,
-          isBooked: isTimeSlotBooked(specialty.id, date, time)
+          isBooked: isTimeSlotBooked(specialty.id, date, time) || !times.includes(time)
         }));
         setAllTimeSlots(timeSlotsWithStatus);
+        
+        console.log('📅 Fecha seleccionada:', {
+          date,
+          dayName: getDayName(date),
+          isToday: isToday(date),
+          availableTimes: times.length,
+          totalTimes: allTimes.length
+        });
       } else {
         setAvailableTimes([]);
         setAllTimeSlots([]);
+        
+        // Mostrar información sobre por qué la fecha no está disponible
+        const dayName = getDayName(date);
+        const isTodayDate = isToday(date);
+        
+        if (isTodayDate) {
+          console.log('❌ Hoy no está disponible para esta especialidad');
+        } else {
+          console.log('❌ Fecha no disponible:', { date, dayName });
+        }
       }
     } else {
       setAvailableTimes([]);
@@ -714,7 +733,24 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
                       <div className="mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
                         <p className="text-amber-700 text-sm flex items-center">
                           <span className="mr-2">ℹ️</span>
-                          El profesional no atiende en esta fecha. Selecciona otro día para ver horarios disponibles.
+                          {isToday(formData.date) 
+                            ? 'El profesional no atiende hoy. Selecciona otro día para ver horarios disponibles.'
+                            : getDayName(formData.date) === 'Sábado' || getDayName(formData.date) === 'Domingo'
+                            ? `No se atiende los ${getDayName(formData.date)}s. Selecciona un día de lunes a viernes.`
+                            : 'El profesional no atiende en esta fecha. Selecciona otro día para ver horarios disponibles.'
+                          }
+                        </p>
+                      </div>
+                    )}
+                    
+                    {formData.date && isDateAvailable(specialty.id, formData.date) && (
+                      <div className="mt-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+                        <p className="text-green-700 text-sm flex items-center">
+                          <span className="mr-2">✅</span>
+                          {isToday(formData.date) 
+                            ? `Hoy (${getDayName(formData.date)}) - Solo horarios futuros disponibles`
+                            : `${getDayName(formData.date)} - Fecha disponible`
+                          }
                         </p>
                       </div>
                     )}
@@ -758,6 +794,9 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
                     {formData.date && isDateAvailable(specialty.id, formData.date) && (
                       <div className="mt-2 text-xs text-gray-600">
                         <p>💡 Los horarios marcados como "OCUPADO" no están disponibles</p>
+                        {isToday(formData.date) && (
+                          <p className="text-amber-600 mt-1">⏰ Solo se muestran horarios futuros (con 30 min de anticipación)</p>
+                        )}
                         <div className="mt-1 flex items-center space-x-4">
                           <span className="flex items-center">
                             <div className="w-3 h-3 bg-green-400 rounded-full mr-1"></div>
@@ -767,6 +806,12 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
                             <div className="w-3 h-3 bg-red-400 rounded-full mr-1"></div>
                             Ocupado: {allTimeSlots.filter(slot => slot.isBooked).length}
                           </span>
+                          {isToday(formData.date) && (
+                            <span className="flex items-center">
+                              <div className="w-3 h-3 bg-gray-400 rounded-full mr-1"></div>
+                              Pasado: {allTimeSlots.length - availableTimes.length}
+                            </span>
+                          )}
                         </div>
                       </div>
                     )}

@@ -289,5 +289,45 @@ export const isDateAvailable = (specialtyId: number, date: string): boolean => {
 // Función para obtener horarios disponibles en una fecha específica
 export const getAvailableHoursForDate = (specialtyId: number, date: string): string[] => {
   if (!isDateAvailable(specialtyId, date)) return [];
-  return getAvailableHours(specialtyId);
+  
+  const specialty = specialties.find(s => s.id === specialtyId);
+  if (!specialty) return [];
+  
+  const allHours = specialty.availableHours;
+  const dateObj = new Date(date);
+  const today = new Date();
+  
+  // Si es hoy, filtrar solo horarios futuros (con 30 min de anticipación)
+  if (dateObj.toDateString() === today.toDateString()) {
+    const currentTime = new Date();
+    const bufferMinutes = 30; // 30 minutos de anticipación
+    currentTime.setMinutes(currentTime.getMinutes() + bufferMinutes);
+    
+    const currentTimeString = currentTime.toTimeString().slice(0, 5); // HH:MM
+    
+    console.log('🕐 Filtrando horarios para hoy:', {
+      currentTime: currentTimeString,
+      allHours,
+      filteredHours: allHours.filter(hour => hour > currentTimeString)
+    });
+    
+    return allHours.filter(hour => hour > currentTimeString);
+  }
+  
+  // Si no es hoy, devolver todos los horarios
+  return allHours;
+};
+
+// Función para verificar si es hoy
+export const isToday = (date: string): boolean => {
+  const dateObj = new Date(date);
+  const today = new Date();
+  return dateObj.toDateString() === today.toDateString();
+};
+
+// Función para obtener el nombre del día
+export const getDayName = (date: string): string => {
+  const dateObj = new Date(date);
+  const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  return dayNames[dateObj.getDay()];
 };
