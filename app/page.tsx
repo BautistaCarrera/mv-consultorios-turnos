@@ -717,9 +717,6 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Fecha de atención *
                     </label>
-                    <p className="text-xs text-gray-600 mb-2">
-                      📅 El consultorio atiende de lunes a viernes
-                    </p>
                     <div className="relative">
                       <input
                         type="date"
@@ -728,9 +725,7 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
                         onChange={(e) => handleDateChange(e.target.value)}
                         className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-mv-beige/50 focus:border-mv-beige transition-all duration-300 group-hover:border-mv-beige/30 text-gray-800"
                       />
-                      <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                        <Calendar className="w-4 h-4 text-gray-400 group-focus-within:text-mv-beige transition-colors" />
-                      </div>
+
                     </div>
                     {formData.date && !isDateAvailable(specialty.id, formData.date) && (
                       <div className="mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
@@ -800,9 +795,7 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
                         {isToday(formData.date) && (
                           <p className="text-amber-600 mt-1">⏰ Solo se muestran horarios futuros (no se pueden reservar horarios que ya pasaron)</p>
                         )}
-                        {isToday(formData.date) && availableTimes.length === 0 && (
-                          <p className="text-red-600 mt-1">❌ No hay horarios disponibles para hoy. Intenta mañana o selecciona otro día.</p>
-                        )}
+
                         <div className="mt-1 flex items-center space-x-4">
                           <span className="flex items-center">
                             <div className="w-3 h-3 bg-green-400 rounded-full mr-1"></div>
