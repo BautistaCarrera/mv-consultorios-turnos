@@ -786,16 +786,16 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
               </div>
             </form>
           ) : (
-                         <div className="space-y-6">
-               <div className="bg-green-50 border border-green-200 rounded-xl p-4">
-                 <h3 className="text-lg font-medium text-green-800 mb-2">
-                   ¡Turno reservado exitosamente!
-                 </h3>
-                 <p className="text-green-700">
+            <div className="space-y-6 max-h-[80vh] overflow-y-auto">
+              <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                <h3 className="text-lg font-medium text-green-800 mb-3">
+                   ¡Turno reservado exitosamente! ✅
+                </h3>
+                <p className="text-green-700 text-sm leading-relaxed">
                    Tu turno ha sido registrado y se ha enviado una notificación al consultorio. 
                    Recibirás la confirmación por WhatsApp una vez que el consultorio confirme tu turno.
-                 </p>
-               </div>
+                </p>
+              </div>
 
               <div className="bg-gradient-to-r from-mv-beige to-mv-gray p-4 rounded-xl">
                 <h4 className="font-medium text-gray-800 mb-3">Detalles de la reserva:</h4>
@@ -811,6 +811,21 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
               </div>
 
               <div className="space-y-3">
+                <button
+                  onClick={() => {
+                    // Abrir WhatsApp automáticamente
+                    const whatsappUrl = `https://wa.me/54${contactInfo.phone}?text=${encodeURIComponent(
+                      `Hola! Acabo de reservar un turno para ${specialty.name} con ${specialty.professional} el ${formData.date} a las ${formData.time}. Mi nombre es ${formData.name} ${formData.lastName}, DNI: ${formData.dni}. ¿Podrían confirmarme el turno?`
+                    )}`;
+                    window.open(whatsappUrl, '_blank');
+                    onClose();
+                  }}
+                  className="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-4 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Contactar por WhatsApp</span>
+                </button>
+                
                 <button
                   onClick={onClose}
                   className="w-full bg-gradient-to-r from-mv-beige to-mv-gray hover:from-mv-gray hover:to-mv-beige text-gray-800 font-medium py-3 px-4 rounded-xl transition-all duration-200"
