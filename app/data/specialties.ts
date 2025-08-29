@@ -297,16 +297,25 @@ export const getAvailableHoursForDate = (specialtyId: number, date: string): str
   const dateObj = new Date(date);
   const today = new Date();
   
-  // Si es hoy, filtrar solo horarios futuros (con 30 min de anticipación)
+  // Si es hoy, aplicar lógica de horarios en tiempo real
   if (dateObj.toDateString() === today.toDateString()) {
     const currentTime = new Date();
-    const bufferMinutes = 30; // 30 minutos de anticipación
-    currentTime.setMinutes(currentTime.getMinutes() + bufferMinutes);
+    const currentHour = currentTime.getHours();
+    const currentMinute = currentTime.getMinutes();
     
+    // Solo permitir reservas desde las 8:00 AM
+    if (currentHour < 8) {
+      console.log('🕐 Antes de las 8:00 AM - No se permiten reservas para hoy');
+      return [];
+    }
+    
+    // Filtrar horarios que ya pasaron (sin buffer de anticipación)
     const currentTimeString = currentTime.toTimeString().slice(0, 5); // HH:MM
     
     console.log('🕐 Filtrando horarios para hoy:', {
       currentTime: currentTimeString,
+      currentHour,
+      currentMinute,
       allHours,
       filteredHours: allHours.filter(hour => hour > currentTimeString)
     });

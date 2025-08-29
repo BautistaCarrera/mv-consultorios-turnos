@@ -734,7 +734,7 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
                         <p className="text-amber-700 text-sm flex items-center">
                           <span className="mr-2">ℹ️</span>
                           {isToday(formData.date) 
-                            ? 'El profesional no atiende hoy. Selecciona otro día para ver horarios disponibles.'
+                            ? 'Las reservas para hoy están disponibles desde las 8:00 AM. Intenta más tarde.'
                             : getDayName(formData.date) === 'Sábado' || getDayName(formData.date) === 'Domingo'
                             ? `No se atiende los ${getDayName(formData.date)}s. Selecciona un día de lunes a viernes.`
                             : 'El profesional no atiende en esta fecha. Selecciona otro día para ver horarios disponibles.'
@@ -795,7 +795,7 @@ function BookingModal({ specialty, onClose }: { specialty: any; onClose: () => v
                       <div className="mt-2 text-xs text-gray-600">
                         <p>💡 Los horarios marcados como "OCUPADO" no están disponibles</p>
                         {isToday(formData.date) && (
-                          <p className="text-amber-600 mt-1">⏰ Solo se muestran horarios futuros (con 30 min de anticipación)</p>
+                          <p className="text-amber-600 mt-1">⏰ Solo se muestran horarios futuros (no se pueden reservar horarios que ya pasaron)</p>
                         )}
                         <div className="mt-1 flex items-center space-x-4">
                           <span className="flex items-center">
