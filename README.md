@@ -4,9 +4,9 @@ Una aplicación web moderna para reservar turnos en MV consultorios, desarrollad
 
 ## 🌐 **Aplicación en Producción**
 
-**URL de la aplicación:** [https://mv-consultorios-turnos.vercel.app](https://mv-consultorios-turnos.vercel.app)
+**URL de la aplicación:** [https://mv-consultorios.vercel.app](https://mv-consultorios.vercel.app)
 
-> ⚠️ **Nota:** Reemplaza la URL anterior con la URL real de tu aplicación en Vercel
+> ✅ **Aplicación funcionando en producción**
 
 ## Características
 
